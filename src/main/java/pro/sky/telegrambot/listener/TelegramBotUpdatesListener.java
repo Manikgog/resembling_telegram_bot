@@ -134,7 +134,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     /**
      * Метод для возвращения сообщения пользователю
      * @param chatId - идентификатор чата пользователя
-     * @param message - тексе сообщения
+     * @param message - текст сообщения
      */
     public void notificationMessage(long chatId, String message){
         logger.info("Start notificationMessage method");
@@ -163,7 +163,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
      */
     @Scheduled(cron = "0 * * * * *") // секунды минуты часы дни месяцы дни_недели
     private void sendMessageByTime(){
-        //logger.info("Started sendMessageByTime method");
         List<NotificationTask> list = notificationService.taskListByDateAndTimeNow();
         for(NotificationTask item : list){
             String messageText = item.getDate().toString() + " " + item.getTime() + " " + item.getMessageText();

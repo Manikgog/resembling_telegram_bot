@@ -14,7 +14,6 @@ import java.util.List;
 
 @Service
 public class NotificationService {
-    @Autowired
     private final NotificationTaskRepository notificationTaskRepository;
     public NotificationService(NotificationTaskRepository notificationTaskRepository){
         this.notificationTaskRepository = notificationTaskRepository;
