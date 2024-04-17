@@ -1,0 +1,41 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: mak-1
+      author: manikgog
+      changes:
+        - createTable:
+            tableName: notification_task
+            remarks: заметки
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: notification_id
+                    nullable: false
+              - column:
+                  name: chat_id
+                  type: bigint
+                  remarks: chat identificator
+                  constraints:
+                    unique: false
+                    uniqueConstraintName: chat_id_constraint
+                    nullable: false
+              - column:
+                  name: message_text
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: notification_date
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: notification_time
+                  type: time
+                  constraints:
+                    nullable: false

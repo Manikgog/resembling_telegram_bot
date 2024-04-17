@@ -1,7 +1,5 @@
 package pro.sky.telegrambot.service;
 
-import com.pengrad.telegrambot.model.Update;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pro.sky.telegrambot.entity.NotificationTask;
 import pro.sky.telegrambot.repository.NotificationTaskRepository;
@@ -22,12 +20,12 @@ public class NotificationService {
     /**
      * Метод для обработки и сохранения запланированного дела в базу данных
      * через обращение к репозиторию notificationTaskRepository
-     * @param update - обновление от пользователя telegram
+     * @param chatId - идентификатор чата
+     * @param text - сообщение пользователя
      * @return String - объект NotificationTask, преобразованный в строку
      */
-    public String saveToDataBase(Update update){
-        String inputString = update.message().text();
-        long chatId = update.message().chat().id();
+    public String saveToDataBase(long chatId, String text){
+        String inputString = text;
         int index = inputString.indexOf(':') + 3;
         String dateTime = inputString.substring(0, index);
         inputString = inputString.substring(index + 1);
@@ -86,13 +84,13 @@ public class NotificationService {
      * Удаление из базы данных записей с прошедшим временем и датой
      * @return List<NotificationTask> - список удалённых задач
      */
-    public List<NotificationTask> deletePastTasks(){
-        List<NotificationTask> list = notificationTaskRepository.findAll()
+    public List<NotificationTask> deletePastTasks(long chatId){
+        List<NotificationTask> list = notificationTaskRepository.findByChatId(chatId)
                 .stream()
                 .filter(task -> task.getDate().isBefore(LocalDate.now()) ||
                         (task.getDate().isEqual(LocalDate.now()) &&
                                 task.getTime().isBefore(LocalTime.now()))).toList();
-        list.forEach(task -> notificationTaskRepository.deleteById(task.getId()));
+        list.forEach(notificationTaskRepository::delete);
         return list;
     }
 

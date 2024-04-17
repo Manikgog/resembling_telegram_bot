@@ -64,7 +64,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                         }
                     }
                     case "/delete_past_tasks" -> {
-                        List<NotificationTask> list = notificationService.deletePastTasks();
+                        List<NotificationTask> list = notificationService.deletePastTasks(update.message().chat().id());
                         if (list.isEmpty()) {
                             emptyListMessage(update.message().chat().id());
                         } else {
@@ -152,7 +152,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     private void onSaveNotificationAction(Update update){
         logger.info("Start onSaveNotificationAction method");
         long chatId = update.message().chat().id();
-        String botAnswer = notificationService.saveToDataBase(update);
+        String botAnswer = notificationService.saveToDataBase(update.message().chat().id(), update.message().text());
         SendMessage sendMessage = new SendMessage(chatId, botAnswer);
         telegramBot.execute(sendMessage);
     }
