@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-@Repository
+
 public interface NotificationTaskRepository extends JpaRepository<NotificationTask, Integer> {
     @Query(value = "SELECT * FROM public.notification_task WHERE notification_date = :localDate AND notification_time = :localTime", nativeQuery = true)
     List<NotificationTask> findByDateAndTime(LocalDate localDate, LocalTime localTime);
