@@ -12,11 +12,11 @@ import java.util.Objects;
 public class NotificationTask {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long id;
-    long chatId;
-    String messageText;
-    LocalDate notificationDate;
-    LocalTime notificationTime;
+    private long id;
+    private long chatId;
+    private String messageText;
+    private LocalDate notificationDate;
+    private LocalTime notificationTime;
 
     public NotificationTask() {
     }

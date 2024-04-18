@@ -13,6 +13,7 @@ import java.util.List;
 @Service
 public class NotificationService {
     private final NotificationTaskRepository notificationTaskRepository;
+    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
     public NotificationService(NotificationTaskRepository notificationTaskRepository){
         this.notificationTaskRepository = notificationTaskRepository;
     }
@@ -21,11 +22,10 @@ public class NotificationService {
      * Метод для обработки и сохранения запланированного дела в базу данных
      * через обращение к репозиторию notificationTaskRepository
      * @param chatId - идентификатор чата
-     * @param text - сообщение пользователя
+     * @param inputString - сообщение пользователя
      * @return String - объект NotificationTask, преобразованный в строку
      */
-    public String saveToDataBase(long chatId, String text){
-        String inputString = text;
+    public String saveToDataBase(long chatId, String inputString){
         int index = inputString.indexOf(':') + 3;
         String dateTime = inputString.substring(0, index);
         inputString = inputString.substring(index + 1);
@@ -39,7 +39,6 @@ public class NotificationService {
      * @return LocalDateTime - объект класса
      */
     private LocalDateTime parseOfUpdateStringToDateAndTime(String inputString){
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
         return LocalDateTime.parse(inputString, dateTimeFormatter);
     }
 
@@ -61,7 +60,7 @@ public class NotificationService {
     }
 
     /**
-     * метод для получения списка записей которые соответствуют текущей дате и времени
+     * Метод для получения списка записей которые соответствуют текущей дате и времени
      * @return List<NotificationTask> - список задач, которые совпадают по времени и дате
      * с текущим временем и датой
      */

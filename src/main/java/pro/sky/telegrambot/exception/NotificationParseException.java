@@ -3,7 +3,6 @@ package pro.sky.telegrambot.exception;
 public class NotificationParseException extends RuntimeException {
     private final String message;
     public NotificationParseException(String message){
-        super(message);
         this.message = message;
     }
 

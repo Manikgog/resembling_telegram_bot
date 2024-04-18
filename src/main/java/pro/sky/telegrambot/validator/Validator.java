@@ -1,7 +1,8 @@
 package pro.sky.telegrambot.validator;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pro.sky.telegrambot.exception.NotificationParseException;
-import pro.sky.telegrambot.listener.TelegramBotUpdatesListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -10,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Validator {
+    private static final Logger logger = LoggerFactory.getLogger(Validator.class);
     /**
      * Метод для проверки соответствия сообщения нужному формату -> dd.MM.yyyy HH:mm
      * даты и времени.
@@ -59,7 +61,7 @@ public class Validator {
         try {
             checkDateTime(date + " " + time);
         }catch (RuntimeException e){
-            TelegramBotUpdatesListener.logger.info(e.getMessage());
+            logger.info(e.getMessage());
             throw new NotificationParseException(e.getMessage());
         }
         try {
@@ -93,7 +95,7 @@ public class Validator {
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm").withResolverStyle(ResolverStyle.SMART);
             dateTimeFormatter.parse(dateTime);
         }catch (DateTimeParseException e){
-            TelegramBotUpdatesListener.logger.error("Error occurred: " + e.getMessage());
+            logger.error("Error occurred: " + e.getMessage());
             throw new RuntimeException("Такой даты не существует " + dateTime);
         }
     }
